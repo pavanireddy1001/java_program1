@@ -1,0 +1,764 @@
+QUEUE:
+
+#include <stdio.h>
+#include <stdlib.h>
+
+#define MAX_QUEUE_SIZE 100
+
+// Structure to represent the queue
+typedef struct {
+    int items[MAX_QUEUE_SIZE];
+    int front;
+    int rear;
+} Queue;
+
+// Function to create a new queue
+Queue* createQueue() {
+    Queue* queue = (Queue*)malloc(sizeof(Queue));
+    queue->front = -1;
+    queue->rear = -1;
+    return queue;
+}
+
+// Function to check if the queue is empty
+int isEmpty(Queue* queue) {
+    return (queue->front == -1 && queue->rear == -1);
+}
+
+// Function to check if the queue is full
+int isFull(Queue* queue) {
+    return (queue->rear + 1) % MAX_QUEUE_SIZE == queue->front;
+}
+
+// Function to add an element to the queue
+void enqueue(Queue* queue, int value) {
+    if (isFull(queue)) {
+        printf("Queue is full. Cannot enqueue.\n");
+        return;
+    }
+    if (isEmpty(queue)) {
+        queue->front = 0;
+        queue->rear = 0;
+    } else {
+        queue->rear = (queue->rear + 1) % MAX_QUEUE_SIZE;
+    }
+    queue->items[queue->rear] = value;
+}
+
+// Function to remove an element from the queue
+int dequeue(Queue* queue) {
+    int item;
+    if (isEmpty(queue)) {
+        printf("Queue is empty. Cannot dequeue.\n");
+        return -1;
+    }
+    item = queue->items[queue->front];
+    if (queue->front == queue->rear) {
+        queue->front = -1;
+        queue->rear = -1;
+    } else {
+        queue->front = (queue->front + 1) % MAX_QUEUE_SIZE;
+    }
+    return item;
+}
+
+// Function to display the elements of the queue
+void display(Queue* queue) {
+    int i;
+    if (isEmpty(queue)) {
+        printf("Queue is empty.\n");
+        return;
+    }
+    printf("Queue elements: ");
+    for (i = queue->front; i != queue->rear; i = (i + 1) % MAX_QUEUE_SIZE) {
+        printf("%d ", queue->items[i]);
+    }
+    printf("%d\n", queue->items[i]); // Display the last element
+}
+
+// Function to get the front element of the queue without removing it
+int peek(Queue* queue) {
+    if (isEmpty(queue)) {
+        printf("Queue is empty.\n");
+        return -1;
+    }
+    return queue->items[queue->front];
+}
+
+int main() {
+    Queue* queue = createQueue();
+
+    enqueue(queue, 10);
+    enqueue(queue, 20);
+    enqueue(queue, 30);
+    enqueue(queue, 40);
+
+    display(queue); // Output: Queue elements: 10 20 30 40
+
+    printf("Front element: %d\n", peek(queue)); // Output: Front element: 10
+
+    dequeue(queue);
+    dequeue(queue);
+
+    display(queue); // Output: Queue elements: 30 40
+
+    printf("Front element: %d\n", peek(queue)); // Output: Front element: 30
+
+    return 0;
+}
+STACK:
+// Stack implementation in C
+
+#include <stdio.h>
+#include <stdlib.h>
+
+#define MAX 10
+
+int count = 0;
+
+// Creating a stack
+struct stack {
+  int items[MAX];
+  int top;
+};
+typedef struct stack st;
+
+void createEmptyStack(st *s) {
+  s->top = -1;
+}
+
+// Check if the stack is full
+int isfull(st *s) {
+  if (s->top == MAX - 1)
+    return 1;
+  else
+    return 0;
+}
+// Check if the stack is empty
+int isempty(st *s) {
+  if (s->top == -1)
+    return 1;
+  else
+    return 0;
+}
+
+// Add elements into stack
+void push(st *s, int newitem) {
+  if (isfull(s)) {
+    printf("STACK FULL");
+  } else {
+    s->top++;
+    s->items[s->top] = newitem;
+  }
+  count++;
+}
+// Remove element from stack
+void pop(st *s) {
+  if (isempty(s)) {
+    printf("\n STACK EMPTY \n");
+  } else {
+    printf("Item popped= %d", s->items[s->top]);
+    s->top--;
+  }
+  count--;
+  printf("\n");
+}
+
+// Print elements of stack
+void printStack(st *s) {
+  printf("Stack: ");
+  for (int i = 0; i < count; i++) {
+    printf("%d ", s->items[i]);
+  }
+  printf("\n");
+}
+
+// Driver code
+int main() {
+  int ch;
+  st *s = (st *)malloc(sizeof(st));
+
+  createEmptyStack(s);
+push(s, 1);
+  push(s, 2);
+  push(s, 3);
+  push(s, 4);
+
+  printStack(s);
+
+  pop(s);
+
+  printf("\nAfter popping out\n");
+  printStack(s);
+}
+SINGLY LINKED LIST:
+#include<stdio.h>
+#include<stdlib.h>
+struct node{
+ int num;
+ struct node *ptr;
+};
+
+int main(){
+
+typedef struct node NODE;
+ NODE *head,*first,*temp=0;
+int count=0,choice=1;
+  first=0;
+while(choice){
+ head=(NODE *)malloc(sizeof(NODE));
+ printf("Enter data:"); scanf("%d",&head->num);
+ if(first!=0){
+  temp->ptr=head;
+   temp=head;
+ }
+ else
+    first=temp=head;
+ printf("\nDo you Want to Continue(0 or 1):"); scanf("%d",&choice);
+}
+ temp->ptr=0;
+ temp=first;
+printf("\nlinked List\n");
+while(temp!=0){
+ printf("%d > ",temp->num); count++;
+ temp=temp->ptr;
+}
+  printf("NULL\n");
+  printf("No of Nodes: %d",count);
+return 0;
+}
+
+OPERATIONS IN SINGLY LINKED LIST:
+#include<stdio.h>
+#include<stdlib.h>
+void create();
+void display();
+void insert_begin();
+void insert_end();
+void insert_pos();
+void delete_begin();
+void delete_end();
+void delete_pos();
+struct node* head = NULL;
+struct node
+{
+	int data;
+	struct node* next;
+};
+int main()
+{
+	int choice;
+	while(1)
+	{
+	    printf("\n*****\n");
+	    printf("0. Create\n");
+	    printf("1. display\n");
+	    printf("2. Insert Node at beginning\n");
+	    printf("3. Insert Node in specific position\n");
+	    printf("4. Insert Node at end of LinkedList\n");
+	    printf("5. Delete Node at beginning\n");
+	    printf("6. Delete Node at end\n");
+	    printf("7. Delete Node at position\n");
+	    printf("8. ** To exit **");
+	    
+		printf("\n Enter your choice: ");
+		scanf("%d",&choice);
+		switch(choice)
+		{
+			case 0: create();
+					break;
+			case 1: display();
+					break;
+			case 2: insert_begin();
+					break;
+			case 3: insert_pos();
+					break;
+			case 4: insert_end();
+					break;
+			case 5: delete_begin();
+					break;
+			case 6: delete_end();
+					break;
+			case 7: delete_pos();
+					break;
+			case 8: exit(0);
+			default:printf("\n Wrong Choice");
+                    break;
+		}
+	}
+}
+//creates a node
+void create()
+{
+	struct node* temp;
+        //creating new node
+	temp = (struct node*)malloc(sizeof(struct node));
+	printf("Enter node data: ");
+	scanf("%d",&temp->data); 
+	temp->next = NULL;
+	if(head==NULL)	{
+		head = temp;
+	}
+	else{
+		struct node* ptr = head;
+		while(ptr->next!=NULL)
+		{
+			ptr = ptr->next;
+		}
+		ptr->next = temp; //inserting at end of List
+	}
+}
+// prints the entire LinkedList
+void display()
+{
+	if(head==NULL)
+	{
+		printf("Linked List is Empty\n");
+		return;
+	}
+        printf("LinkedList: ");
+	struct node* ptr = head;
+	while(ptr!=NULL) // start from first node
+	{
+		printf("%d ",ptr->data);
+		ptr = ptr->next;
+	}
+    printf("\n");
+}
+// to insert node at start of LinkedList
+void insert_begin()
+{
+	struct node* temp;
+        // creating a new node
+	temp = (struct node*)malloc(sizeof(struct node));
+	printf("Enter node data: ");
+	scanf("%d",&temp->data);
+	temp->next = NULL;
+	if(head==NULL)
+	{
+		head = temp;
+		return;
+	}
+	else
+	{
+		temp->next = head; //point it to old head node
+		head = temp; //point head to new first node
+	}
+}
+// to insert node at given position
+void insert_pos()
+{
+	struct node* temp;
+        // creating a new node
+	temp = (struct node*)malloc(sizeof(struct node));
+	printf("Enter node data: ");
+	scanf("%d",&temp->data);
+	temp->next = NULL;
+	if(head==NULL) // if list empty we return
+	{
+		head = temp;
+	        return;
+	}
+	else
+	{
+		struct node* prev_ptr;
+		struct node* ptr = head;
+		int pos;
+		printf("Enter position: ");
+		scanf("%d",&pos);
+		for(int i=0;i<pos;i++)
+		{
+			prev_ptr = ptr;
+			ptr = ptr->next;
+		}
+                //new node pointing to node in that pos
+		temp->next = ptr;
+                //prevptr pointing to new node
+		prev_ptr->next = temp;
+	}
+}
+// to insert node at end of LinkedList
+void insert_end()
+{
+	struct node* temp;
+        //creating new node
+	temp = (struct node*)malloc(sizeof(struct node));
+	printf("Enter node data: ");
+	scanf("%d",&temp->data); 
+	temp->next = NULL;
+	if(head==NULL)
+	{
+		head = temp; //if list is empty, we return
+	        return;
+	}
+	else{
+		struct node* ptr = head;  
+		while(ptr->next!=NULL)
+		{
+			ptr = ptr->next;
+		}
+               // tail node pointing to new node
+		ptr->next = temp;
+	}
+}
+// to delete first node of LinkedList
+void delete_begin()
+{ 
+	if(head==NULL) //if List is empty we return
+	{
+		printf("Linked List is empty | Nothing to delete \n");
+		return;
+	}
+	else
+	{
+		struct node* ptr = head; 
+		head = head->next; // head node pointing to second node
+		free(ptr); // deleting prev head node
+		printf("Node Deleted \n");
+	}
+}
+// to delete last node of LinkedList
+void delete_end()
+{
+	if(head==NULL) //if List is empty we return
+	{
+		printf("Linked List is empty | Nothing to delete \n");
+		return;
+	}
+	else if(head->next==NULL) 
+	{
+		struct node* ptr = head;
+		head = ptr->next;
+		free(ptr);
+	}
+	else
+	{
+		struct node* ptr = head;
+		struct node* prev_ptr = NULL;
+		while(ptr->next!=NULL)// traverse till last but one node
+		{
+			prev_ptr = ptr;
+			ptr = ptr->next;
+		}
+		prev_ptr->next = NULL; // next field of last but one field is made as NULL
+		free(ptr); // deleting last node
+	}	
+}
+// to delete node at given position
+void delete_pos()
+{
+	int pos;
+	printf("Enter node position to delete: ");
+	scanf("%d",&pos);     
+	struct node* ptr=head;                                                                               
+	if(head==NULL) //we return if List is empty
+	{
+		printf("Linked List is empty \n"); 
+		return;
+	}
+	else if(pos == 0) 
+	{
+		ptr = head;
+		head=ptr->next; // head pointing to second node
+		free(ptr); // deleting old first node
+	}
+	else
+	{
+		struct node* prev_ptr;
+		for(int i=0;i<pos;i++)
+		{
+			prev_ptr = ptr;
+			ptr = ptr->next;
+		}
+		prev_ptr->next = ptr->next; //prev node pointing to pos+1 node
+		free(ptr); //deleting node at pos
+	}
+}
+ 
+
+DOUBLY LINKED LIST:
+#include<stdio.h>
+#include<stdlib.h>
+struct dl
+{
+        int data;
+        struct dl *next;
+	struct dl *prev;
+}s1,*node,*start,*end,*temp;
+int count=0;
+void construct()
+{
+        start=NULL;node=NULL;end=NULL;
+}
+
+void insertb()
+{
+        int x;
+        printf("Enter the element:");   scanf("%d",&x);
+        count++;
+
+        node=(struct dl *)malloc(sizeof(s1));
+        node->data=x;
+        if(start==NULL)
+        {
+        start=node;
+        start->next=NULL;
+	start->prev=NULL;
+        end=node;
+        }
+        else
+        {
+        node->next=start;
+	start->prev=node;
+	node->prev=NULL;
+	start=node;
+        }
+}
+
+void inserte()
+{
+        int x;
+        printf("Enter the element:");   scanf("%d",&x);
+        count++;
+        node=(struct dl *)malloc(sizeof(s1));
+        node->data=x;
+        if(start==NULL)
+        {
+        start=node;
+        start->next=NULL;
+	start->prev=NULL;
+	end=node;
+        }
+        else
+        {
+	end->next=node;
+	node->prev=end;
+	node->next=NULL;
+	end=node;
+	}
+}
+
+void deletee()
+{
+        if(start==NULL) printf("Queue Underflow!!\n");
+        else if(end==start)
+        {
+        temp=end;
+        free(temp);
+        start=NULL;end=NULL;
+        }
+        else
+        {
+        temp=end;
+        count--;
+        end=end->prev;
+	end->next=NULL;
+        free(temp);
+	}
+}
+
+void deleteb()
+{
+        if(start==NULL) printf("Queue Underflow!!\n");
+        else if(end==start)
+        {
+        temp=end;
+        free(temp);
+        start=NULL;end=NULL;
+        }
+        else
+        {
+        temp=start;
+        count--;
+        start=start->next;
+        start->prev=NULL;
+        free(temp);
+	}
+}
+
+void display()
+{
+        int i;
+	if(start==NULL)
+        printf("\nQueue underflow!\n");
+        else
+        {
+        printf("\nThe elements are:\n");
+        for(node=start;node!=NULL;node=node->next)
+        //for(node=start,i=0;i<count;i++,node=node->next)
+                printf("%d ",node->data);
+	}
+}
+void main()
+{
+        int ch;
+        construct();
+        while(1)
+        {
+                printf("\n\n***Doubly Link List***\n1.Insert at beginning\n2.Insert at end\n3.Delete from begining\n4.Delete from end\n5.Display\n6.Exit\nEnter your choice:\n");
+                scanf("%d",&ch);
+                switch(ch)
+                {
+                case 1: insertb(); break;
+                case 2: inserte(); break;
+                case 3: deleteb(); break;
+                case 4: deletee(); break;
+                case 5: display(); break;
+                case 6: exit(0); break;
+                default: printf("\nWrong Choice!!\n");
+                }
+        }
+}
+
+
+CIRCULAR LINKED LIST:
+#include<stdio.h>
+#include<stdlib.h>
+struct cr
+{
+        int data;
+        struct cr *next;
+}s1,*node,*start,*end,*temp;
+int count=0;
+void construct()
+{
+        start=NULL;node=NULL;
+}
+
+void insertb()
+{
+        int x;
+        printf("Enter the element:");   scanf("%d",&x);
+        count++;
+
+        node=(struct cr *)malloc(sizeof(s1));
+        node->data=x;
+        if(start==NULL)
+        {
+        start=node;
+        start->next=start;
+        end=node;
+        }
+        else
+        {
+        node->next=start;
+        end->next=node;
+        start=node;
+        }
+}
+void inserte()
+{
+        int x;
+        printf("Enter the element:");   scanf("%d",&x);
+        count++;
+        node=(struct cr *)malloc(sizeof(s1));
+        node->data=x;
+        if(start==NULL)
+        {
+        start=node;
+        start->next=start;
+        end=node;
+        }
+        else
+        {
+        node->next=start;
+        end->next=node;
+        end=node;
+        }
+}
+
+void deletee()
+{
+        if(start==NULL)
+        printf("Queue Underflow\n");
+        else if(start==end)
+        {
+        temp=end; free(temp); start=NULL; end=NULL;
+        }
+        else
+        {
+        temp=end;
+        count--;
+        for(node=start;node->next->next!=start;node=node->next);
+        end=node;
+        end->next=start;
+        free(temp);
+        }
+}
+void deleteb()
+{
+        if(start==NULL)
+        printf("Queue Underflow\n");
+        else if(start==end)
+        {
+        temp=end; free(temp); start=NULL; end=NULL;
+        }
+        else
+        {
+        temp=start;
+        count--;
+        start=start->next;
+        end->next=start;
+        free(temp);
+        }
+}
+
+void display()
+{
+        int i;
+        if(start==NULL) printf("Queue underflow!\n");
+        else
+        {
+        printf("\nThe elements are:\n");
+        for(node=start,i=0;i<count;i++,node=node->next)
+                printf("%d ",node->data);
+        }
+}
+void main()
+{
+        int ch;
+        construct();
+        while(1)
+        {
+                printf("\n\n***Circular Queue***\n1.Insert at beginning\n2.Insert at end\n3.Delete from begining\n4.Delete from end\n5.Display\n6.Exit\nEnter your choice:\n");
+                scanf("%d",&ch);
+                switch(ch)
+                {
+                case 1: insertb(); break;
+                case 2: inserte(); break;
+                case 3: deleteb(); break;
+                case 4: deletee(); break;
+                case 5: display(); break;
+                case 6: exit(0); break;
+                default: printf("\nWrong Choice!!\n");
+                }
+        }
+}
+
+
+
+FACTORIAL:
+
+#include<stdio.h>
+long int multiplyNumbers(int n);
+int main() {
+    int n;
+    printf("Enter a positive integer: ");
+    scanf("%d",&n);
+    printf("Factorial of %d = %ld", n, multiplyNumbers(n));
+    return 0;
+}
+
+long int multiplyNumbers(int n) {
+    if (n>=1)
+        return n*multiplyNumbers(n-1);
+    else
+        return 1;
+}
+
+
+
+
+
+
+
